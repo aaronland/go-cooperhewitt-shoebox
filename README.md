@@ -9,6 +9,7 @@ This is wet paint. It's probably too soon for you. Things this does not do yet:
 * Archiving of anything but objects that have been collected
 * Display any custom metadata (title, notes)
 * Display any object/person/video metadata (besides title and accession number)
+* Honour / display privacy settings
 * Templates for generating HTML files
 * Responsive hoohah
 * Employ any kind of sane and modular code structure
