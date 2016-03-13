@@ -9,7 +9,7 @@ This is wet paint. It's probably too soon for you.
 ## Setup
 
 ```
-make build
+$> make build
 ```
 
 ## Tools
