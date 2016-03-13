@@ -85,14 +85,14 @@ func main() {
 
 			if action != "collect" {
 				fmt.Println("not a collect")
-				return
+				continue
 			}
 
 			isa := item.Path("refers_to_a").Data().(string)
 
 			if isa != "object" {
 				fmt.Println("not an object")
-				return
+				continue
 			}
 
 			item_id := item.Path("id").Data().(string)
@@ -379,7 +379,7 @@ func main() {
 			index_html += fmt.Sprintf(`<li class="prev first">first</li>`)
 		} else {
 			prev := page - 1
-			prev_html := fmt.Sprintf("page%03d.html", prev)
+			prev_html := fmt.Sprintf("page%d.html", prev)
 			index_html += fmt.Sprintf(`<li class="prev"><a href="%s">previous</a></li>`, prev_html)
 		}
 
@@ -387,14 +387,14 @@ func main() {
 			index_html += fmt.Sprintf(`<li class="next last">last</li>`)
 		} else {
 			next := page + 1
-			next_html := fmt.Sprintf("page%03d.html", next)
+			next_html := fmt.Sprintf("page%d.html", next)
 			index_html += fmt.Sprintf(`<li class="next"><a href="%s">next</a></li>`, next_html)
 		}
 
 		index_html += fmt.Sprintf("</ul>")
 		index_html += fmt.Sprintf("</body></html>")
 
-		page_html := fmt.Sprintf("page%03d.html", page)
+		page_html := fmt.Sprintf("page%d.html", page)
 		index_path := filepath.Join(*shoebox, page_html)
 
 		ioutil.WriteFile(index_path, []byte(index_html), 0644) // todo - check errors
