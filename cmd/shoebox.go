@@ -347,6 +347,10 @@ func main() {
 				item_html += fmt.Sprintf(`<li class="prev"><a href="%s">previous</a></li>`, prev_path)
 			}
 
+			// todo - figure out what page this item is on and link to that directly
+
+			item_html += fmt.Sprintf(`<li class="top"><a href="%s/index.html">index</a></li>`, find_root)
+
 			if idx+1 == count {
 				item_html += fmt.Sprintf(`<li class="next last">last</li>`)
 			} else {
@@ -402,4 +406,18 @@ func main() {
 		offset += per_page
 		page += 1
 	}
+
+	page1 := filepath.Join(*shoebox, "page1.html")
+	_, err := os.Stat(page1)
+
+	if !os.IsNotExist(err) {
+
+	   index := filepath.Join(*shoebox, "index.html")
+
+	   // todo - error handling
+	   data, _ := ioutil.ReadFile(page1)
+	   ioutil.WriteFile(index, data, 0644)
+	}
+
+	
 }
