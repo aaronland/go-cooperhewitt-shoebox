@@ -214,6 +214,8 @@ func main() {
 
 		var index_html string
 
+		// todo - add next/prev rel links (20160314/thisisaaronland)
+		
 		index_html = fmt.Sprintf(`<!DOCTYPE html>
 <html>
   <head>
@@ -222,6 +224,14 @@ func main() {
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" type="text/css" href="css/shoebox.css" />
+    <script type="text/javascript" src="javascript/shoebox.common.js"></script>
+    <script type="text/javascript" src="javascript/shoebox.index.js"></script>
+    <script type="text/javascript">
+    window.onload = function(e){
+    		  shoebox.common.init();
+    		  shoebox.index.init();
+    }
+    </script>
   </head>
   <body>
   <div class="items">`)
@@ -316,6 +326,8 @@ func main() {
 
 			var item_html string
 
+			// todo - add next/prev rel links (20160314/thisisaaronland)
+
 			item_html = fmt.Sprintf(`<!DOCTYPE html>
 <html>
   <head>
@@ -324,13 +336,21 @@ func main() {
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" type="text/css" href="%s/css/shoebox.css" />
+    <script type="text/javascript" src="%s/javascript/shoebox.common.js"></script>
+    <script type="text/javascript" src="%s/javascript/shoebox.item.js"></script>
+    <script type="text/javascript">
+    window.onload = function(e){
+    		  shoebox.common.init();
+    		  shoebox.item.init();
+    }
+    </script>
   </head>
   <body>
   <div class="item-big">
   <div class="item-img">
-  <a href="%s"><img src="%s" /></a>
+  <img src="%s" id="item-image" />
   </div>
-  <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, ref_url, item_b, ref_title, ref_url, ref_acc)
+  <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, find_root, find_root, item_b, ref_title, ref_url, ref_acc)
 
 			item_html += fmt.Sprintf(`<ul class="pagination">`)
 
@@ -346,7 +366,7 @@ func main() {
 
 				prev_path = filepath.Join(find_root, prev_path)
 
-				item_html += fmt.Sprintf(`<li class="prev"><a href="%s">previous</a></li>`, prev_path)
+				item_html += fmt.Sprintf(`<li class="prev"><a href="%s" id="rel-prev">previous</a></li>`, prev_path)
 			}
 
 			// todo - figure out what page this item is on and link to that directly
@@ -365,7 +385,7 @@ func main() {
 
 				next_path = filepath.Join(find_root, next_path)
 
-				item_html += fmt.Sprintf(`<li class="next"><a href="%s">next</a></li>`, next_path)
+				item_html += fmt.Sprintf(`<li class="next"><a href="%s" id="rel-next">next</a></li>`, next_path)
 			}
 
 			item_html += fmt.Sprintf(`</ul>`)
@@ -383,19 +403,19 @@ func main() {
 		index_html += fmt.Sprintf(`<ul class="pagination">`)
 
 		if page == 1 {
-			index_html += fmt.Sprintf(`<li class="prev first">first</li>`)
+			index_html += fmt.Sprintf(`<li class="prev first">this is the first page</li>`)
 		} else {
 			prev := page - 1
 			prev_html := fmt.Sprintf("page%d.html", prev)
-			index_html += fmt.Sprintf(`<li class="prev"><a href="%s">previous</a></li>`, prev_html)
+			index_html += fmt.Sprintf(`<li class="prev"><a href="%s" id="rel-prev">previous</a></li>`, prev_html)
 		}
 
 		if page == pages {
-			index_html += fmt.Sprintf(`<li class="next last">last</li>`)
+			index_html += fmt.Sprintf(`<li class="next last">this is the last page</li>`)
 		} else {
 			next := page + 1
 			next_html := fmt.Sprintf("page%d.html", next)
-			index_html += fmt.Sprintf(`<li class="next"><a href="%s">next</a></li>`, next_html)
+			index_html += fmt.Sprintf(`<li class="next"><a href="%s" id="rel-next">next</a></li>`, next_html)
 		}
 
 		index_html += fmt.Sprintf("</ul>")
