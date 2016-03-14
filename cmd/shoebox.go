@@ -44,8 +44,61 @@ func main() {
 
 	flag.Parse()
 
-	client := api.OAuth2Client(*token)
+	// setup
 
+	_, err := os.Stat(*shoebox)
+	
+	if os.IsNotExist(err){
+	   panic(err)
+	}
+
+	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js"}
+	css := []string{"shoebox.css"}
+
+	for _, fname := range js {
+
+	    root := filepath.Join(*shoebox, "javascript")		
+	    path := filepath.Join(root, fname)
+
+	    _, err := os.Stat(path)
+	
+	    if !os.IsNotExist(err){
+	       continue
+	    }
+
+	    _, err = os.Stat(root)
+	
+	    if os.IsNotExist(err){
+	       os.Mkdir(root, 0755)
+	    }
+	    
+	    fmt.Println("FETCH", path)
+	}
+
+	for _, fname := range css {
+
+	    root := filepath.Join(*shoebox, "css")		
+	    path := filepath.Join(root, fname)
+
+	    _, err := os.Stat(path)
+	
+	    if !os.IsNotExist(err){
+	       continue
+	    }
+
+	    _, err = os.Stat(root)
+	
+	    if os.IsNotExist(err){
+	       os.Mkdir(root, 0755)
+	    }
+	    
+	    fmt.Println("FETCH", path)
+	}
+
+
+	// end setup
+
+	client := api.OAuth2Client(*token)
 	stuff := make([]string, 0)
 
 	pages := -1
@@ -431,9 +484,9 @@ func main() {
 	}
 
 	page1 := filepath.Join(*shoebox, "page1.html")
-	_, err := os.Stat(page1)
+	_, page1_err := os.Stat(page1)
 
-	if !os.IsNotExist(err) {
+	if !os.IsNotExist(page1_err) {
 
 	   index := filepath.Join(*shoebox, "index.html")
 
