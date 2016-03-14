@@ -1,0 +1,42 @@
+body {
+     font-family: sans-serif;
+}
+
+.items {
+       clear:both !important;
+       width: 1075px;
+       margin: 0 auto;
+}
+
+.item {
+      float:left;
+      border: solid .75em #000;
+      margin: 1em;
+}
+
+.item-big {
+       width: 1075px;
+       margin: 0 auto;
+       margin-bottom: 3em;
+}
+
+.item-big img {
+	  border: solid .5em #000;
+}
+
+a { 
+  text-decoration: none;
+}
+  
+.pagination {
+	    clear: both !important;
+	    text-align:center;
+}
+
+.pagination li {
+	    list-style-type: none;
+	    display:inline;
+	    border: 1px solid #ccc;
+	    margin: .5em;
+	    padding: .75em;
+}
