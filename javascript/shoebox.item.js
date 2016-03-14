@@ -14,14 +14,22 @@ shoebox.item = (function(){
 
 				el.onclick = self.toggle;
 
-				self.collapse();
+				self.scale();
+
+				window.onresize = self.resize;
 			},
 
 			'toggle': function(){
 				console.log('toggle');
 			},
 
-			'collapse': function(){
+			'resize': function(){
+				// am I expanded?
+
+				self.scale();
+			},
+
+			'scale': function(){
 
 				var el = document.getElementById("item-image");
 
@@ -38,7 +46,7 @@ shoebox.item = (function(){
 				wh = wh * .85;
 
 				el.setAttribute("height", wh);
-				el.setAttribute("data-toggle-state", "collapse");
+				el.setAttribute("data-toggle-state", "scaled");
 			},
 
 			'expand': function(){
