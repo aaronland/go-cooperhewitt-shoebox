@@ -217,13 +217,14 @@ func main() {
 		index_html = fmt.Sprintf(`<!DOCTYPE html>
 <html>
   <head>
-    <title>Visit</title>
+    <title>Your shoebox</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <link rel="stylesheet" type="text/css" href="shoebox-index.css" />
+    <link rel="stylesheet" type="text/css" href="css/shoebox.css" />
   </head>
-  <body>`)
+  <body>
+  <div class="items">`)
 
 		start := offset
 		end := start + per_page
@@ -322,13 +323,14 @@ func main() {
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <link rel="stylesheet" type="text/css" href="%s/shoebox-index.css" />
+    <link rel="stylesheet" type="text/css" href="%s/css/shoebox.css" />
   </head>
   <body>
-  <div class="item-b">
+  <div class="item-big">
+  <div class="item-img">
   <a href="%s"><img src="%s" /></a>
   </div>
-  <h1>%s <small><a href="%s">%s</a></small></h1>`, ref_title, find_root, ref_url, item_b, ref_title, ref_url, ref_acc)
+  <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, ref_url, item_b, ref_title, ref_url, ref_acc)
 
 			item_html += fmt.Sprintf(`<ul class="pagination">`)
 
@@ -377,6 +379,7 @@ func main() {
 			idx += 1
 		}
 
+		index_html += fmt.Sprintf(`</div><br clear="all" />`)
 		index_html += fmt.Sprintf(`<ul class="pagination">`)
 
 		if page == 1 {
