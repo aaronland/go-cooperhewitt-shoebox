@@ -52,15 +52,17 @@ func main() {
 	   panic(err)
 	}
 
+	src := "https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/"
+
 	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js"}
 	css := []string{"shoebox.css"}
 
 	for _, fname := range js {
 
 	    root := filepath.Join(*shoebox, "javascript")		
-	    path := filepath.Join(root, fname)
+	    local := filepath.Join(root, fname)
 
-	    _, err := os.Stat(path)
+	    _, err := os.Stat(local)
 	
 	    if !os.IsNotExist(err){
 	       continue
@@ -71,8 +73,11 @@ func main() {
 	    if os.IsNotExist(err){
 	       os.Mkdir(root, 0755)
 	    }
-	    
-	    fmt.Println("FETCH", path)
+
+	    remote := filepath.Join(src, "javascript")
+	    remote = filepath.Join(remote, fname)
+
+	    fmt.Println("FETCH", remote)
 	}
 
 	for _, fname := range css {
@@ -273,8 +278,8 @@ func main() {
 <html>
   <head>
     <title>Your shoebox</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="referrer" content="origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="referrer" content="origin" />
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" type="text/css" href="css/shoebox.css" />
     <script type="text/javascript" src="javascript/shoebox.common.js"></script>
