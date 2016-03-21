@@ -68,6 +68,7 @@ func main() {
 
 	var token = flag.String("token", "", "Your Cooper Hewitt API access token")
 	var shoebox = flag.String("shoebox", "", "...")
+	var scrumjax = flag.Bool("scrumjax", false, "...")	// please rename me...
 
 	flag.Parse()
 
@@ -79,7 +80,7 @@ func main() {
 		panic(err)
 	}
 
-	src := "https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/"
+	// src := "https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/"
 
 	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js"}
 	css := []string{"shoebox.css"}
@@ -91,7 +92,7 @@ func main() {
 
 		_, err := os.Stat(local)
 
-		if !os.IsNotExist(err) {
+		if !os.IsNotExist(err) && (!*scrumjax){
 			continue
 		}
 
@@ -112,7 +113,7 @@ func main() {
 
 		_, err := os.Stat(local)
 
-		if !os.IsNotExist(err) {
+		if !os.IsNotExist(err) && (!*scrumjax){
 			continue
 		}
 
@@ -365,6 +366,7 @@ func main() {
 
 			var local_sq string
 			var local_b string
+			var local_n string
 
 			for _, image := range images {
 				is_primary := image.Path("b.is_primary").Data().(string)
@@ -373,9 +375,11 @@ func main() {
 
 					remote_b := image.Path("b.url").Data().(string)
 					remote_sq := image.Path("sq.url").Data().(string)
+					remote_n := image.Path("n.url").Data().(string)
 
 					local_b = filepath.Base(remote_b)
 					local_sq = filepath.Base(remote_sq)
+					local_n = filepath.Base(remote_n)
 
 					break
 				}
@@ -405,9 +409,10 @@ func main() {
 
 			item_href := filepath.Join(item_root, "index.html")
 			item_sq := filepath.Join(item_root, local_sq)
+			item_n := filepath.Join(item_root, local_n)
 			item_b := local_b
 
-			index_html += fmt.Sprintf(`<div class="item"><a href="%s"><img src="%s" title="%s"/></a></div>`, item_href, item_sq, ref_title)
+			index_html += fmt.Sprintf(`<div class="item"><a href="%s"><img src="%s" class="shoebox-thumb" data-alt-src="%s" title="%s"/></a></div>`, item_href, item_sq, item_n, ref_title)
 
 			var item_html string
 
