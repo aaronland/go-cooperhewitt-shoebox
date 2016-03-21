@@ -18,8 +18,13 @@ body {
 
 .item {
       float:left;
-      border: solid .75em #000;
       margin: 1em;
+      min-width:300px;
+      min-heght:300px;
+}
+
+.item img {
+      border: solid .5em #000;
 }
 
 .item-big {
