@@ -17,6 +17,33 @@ import (
 	"sync"
 )
 
+func GetStore(remote string, local string) error {
+
+	fmt.Println("getstore", remote, local)
+
+	rsp, err := http.Get(remote)
+
+	if err != nil {
+		return err
+	}
+
+	contents, err := ioutil.ReadAll(rsp.Body)
+
+	if err != nil {
+		fmt.Printf("failed to fetch %s because %v", remote, err)
+		return err
+	}
+
+	rsp.Body.Close()
+	err = ioutil.WriteFile(local, contents, 0644)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func Id2Path(id int) string {
 
 	parts := []string{}
@@ -47,9 +74,9 @@ func main() {
 	// setup
 
 	_, err := os.Stat(*shoebox)
-	
-	if os.IsNotExist(err){
-	   panic(err)
+
+	if os.IsNotExist(err) {
+		panic(err)
 	}
 
 	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js"}
@@ -57,46 +84,54 @@ func main() {
 
 	for _, fname := range js {
 
-	    root := filepath.Join(*shoebox, "javascript")		
-	    path := filepath.Join(root, fname)
+		root := filepath.Join(*shoebox, "javascript")
+		local := filepath.Join(root, fname)
 
-	    _, err := os.Stat(path)
-	
-	    if !os.IsNotExist(err){
-	       continue
-	    }
+		_, err := os.Stat(local)
 
-	    _, err = os.Stat(root)
-	
-	    if os.IsNotExist(err){
-	       os.Mkdir(root, 0755)
-	    }
-	    
-	    fmt.Println("FETCH", path)
+		if !os.IsNotExist(err) {
+			continue
+		}
+
+		_, err = os.Stat(root)
+
+		if os.IsNotExist(err) {
+			os.Mkdir(root, 0755)
+		}
+
+		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/javascript/%s", fname)
+		GetStore(remote, local) // to do: error handling
 	}
 
 	for _, fname := range css {
 
-	    root := filepath.Join(*shoebox, "css")		
-	    path := filepath.Join(root, fname)
+		root := filepath.Join(*shoebox, "css")
+		local := filepath.Join(root, fname)
 
-	    _, err := os.Stat(path)
-	
-	    if !os.IsNotExist(err){
-	       continue
-	    }
+		_, err := os.Stat(local)
 
-	    _, err = os.Stat(root)
-	
-	    if os.IsNotExist(err){
-	       os.Mkdir(root, 0755)
-	    }
-	    
-	    fmt.Println("FETCH", path)
+		if !os.IsNotExist(err) {
+			continue
+		}
+
+		_, err = os.Stat(root)
+
+		if os.IsNotExist(err) {
+			os.Mkdir(root, 0755)
+		}
+
+		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/css/%s", fname)
+		GetStore(remote, local) // to do: error handling
 	}
 
-
 	// end setup
+
+	num_channels := 200
+	ch := make(chan bool, num_channels)
+
+	for i := 0; i < num_channels; i++ {
+		ch <- true
+	}
 
 	client := api.OAuth2Client(*token)
 	stuff := make([]string, 0)
@@ -175,6 +210,9 @@ func main() {
 
 			go func() {
 
+				<-ch
+				defer func() { ch <- true }()
+
 				defer wg.Done()
 
 				method := "cooperhewitt.objects.getInfo"
@@ -215,24 +253,16 @@ func main() {
 
 						go func() {
 
+							<-ch
+							defer func() { ch <- true }()
+
 							defer wg.Done()
 
-							i_rsp, e := http.Get(url)
+							err := GetStore(url, local)
 
-							if e != nil {
-								fmt.Printf("failed to fetch %s because %v", url, e)
-								return
+							if err != nil {
+								fmt.Printf("failed to fetch %s because %v", url, err)
 							}
-
-							contents, e := ioutil.ReadAll(i_rsp.Body)
-
-							if e != nil {
-								fmt.Printf("failed to fetch %s because %v", url, e)
-								return
-							}
-
-							i_rsp.Body.Close()
-							ioutil.WriteFile(local, contents, 0644) // todo - check errors
 						}()
 					}
 				}
@@ -268,7 +298,7 @@ func main() {
 		var index_html string
 
 		// todo - add next/prev rel links (20160314/thisisaaronland)
-		
+
 		index_html = fmt.Sprintf(`<!DOCTYPE html>
 <html>
   <head>
@@ -488,12 +518,11 @@ func main() {
 
 	if !os.IsNotExist(page1_err) {
 
-	   index := filepath.Join(*shoebox, "index.html")
+		index := filepath.Join(*shoebox, "index.html")
 
-	   // todo - error handling
-	   data, _ := ioutil.ReadFile(page1)
-	   ioutil.WriteFile(index, data, 0644)
+		// todo - error handling
+		data, _ := ioutil.ReadFile(page1)
+		ioutil.WriteFile(index, data, 0644)
 	}
 
-	
 }
