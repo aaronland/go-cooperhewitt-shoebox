@@ -19,8 +19,8 @@ body {
 .item {
       float:left;
       margin: 1em;
-      min-width:300px;
-      min-heght:300px;
+      min-width:320px;
+      min-heght:320px;
 }
 
 .item img {
