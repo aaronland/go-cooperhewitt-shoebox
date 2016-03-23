@@ -320,7 +320,7 @@ func main() {
     </script>
   </head>
   <body>
-  <div class="items">`)
+  <ul class="items">`)
 
 		start := offset
 		end := start + per_page
@@ -412,7 +412,7 @@ func main() {
 			item_n := filepath.Join(item_root, local_n)
 			item_b := local_b
 
-			index_html += fmt.Sprintf(`<div class="item"><a href="%s"><img src="%s" class="shoebox-thumb" data-alt-src="%s" title="%s"/></a></div>`, item_href, item_sq, item_n, ref_title)
+			index_html += fmt.Sprintf(`<li class="item"><a href="%s"><img src="%s" class="shoebox-thumb" data-alt-src="%s" title="%s"/></a></li>`, item_href, item_sq, item_n, ref_title)
 
 			var item_html string
 
@@ -489,7 +489,7 @@ func main() {
 			idx += 1
 		}
 
-		index_html += fmt.Sprintf(`</div><br clear="all" />`)
+		index_html += fmt.Sprintf(`</ul>`)
 		index_html += fmt.Sprintf(`<ul class="pagination">`)
 
 		if page == 1 {

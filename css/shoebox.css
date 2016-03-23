@@ -14,6 +14,9 @@ body {
        clear:both !important;
        width: 1075px;
        margin: 0 auto;
+       border: 1px solid #000000;
+       overflow: hidden;
+       width: 100%;
 }
 
 .item {
@@ -21,6 +24,8 @@ body {
       margin: 1em;
       min-width:320px;
       min-heght:320px;
+      list-style-type:none;
+      border:1px solid red;
 }
 
 .item img {
