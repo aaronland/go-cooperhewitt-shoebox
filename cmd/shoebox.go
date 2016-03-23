@@ -412,7 +412,7 @@ func main() {
 			item_n := filepath.Join(item_root, local_n)
 			item_b := local_b
 
-			index_html += fmt.Sprintf(`<li class="item"><a href="%s"><img src="%s" class="shoebox-thumb" data-alt-src="%s" title="%s"/></a></li>`, item_href, item_sq, item_n, ref_title)
+			index_html += fmt.Sprintf(`<li class="item"><div class="thumb-container"><a href="%s"><img src="%s" class="shoebox-thumb" data-alt-src="%s" title="%s"/></a></div></li>`, item_href, item_sq, item_n, ref_title)
 
 			var item_html string
 

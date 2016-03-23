@@ -1,5 +1,7 @@
 body {
      font-family: sans-serif;
+     margin:0px;
+     padding:0px;
 }
 
 .first {
@@ -14,7 +16,8 @@ body {
        clear:both !important;
        width: 1075px;
        margin: 0 auto;
-       border: 1px solid #000000;
+       margin-top:2em;
+       margin-bottom:2em;
        overflow: hidden;
        width: 100%;
 }
@@ -22,10 +25,10 @@ body {
 .item {
       float:left;
       margin: 1em;
+      list-style-type:none;
       min-width:320px;
       min-heght:320px;
-      list-style-type:none;
-      border:1px solid red;
+      // border:1px solid red;
 }
 
 .item img {
