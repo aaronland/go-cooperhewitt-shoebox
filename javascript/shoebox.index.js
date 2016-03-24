@@ -4,34 +4,56 @@ shoebox.index = (function(){
 
 		var self = {
 			
-			'init': function(){
-
+			'init': function(class_name){
 				
-				var els = document.getElementsByClassName("shoebox-thumb");
+				var els = document.getElementsByClassName(class_name);
 				var count = els.length;
 
 				for (var i=0; i < count; i++){
-
 					self.init_thumb(els[i]);
 				}
 			},
 
 			'init_thumb': function(el){
 
-				el.onmouseover = self.onmouse;
-				el.onmouseout = self.onmouse;
-				
+				el.onmouseover = self.onmouseover;
+				el.onmouseout = self.onmouseout;				
 			},
 
-			'onmouse': function(e){
+			'onmouseover': function(ev){
 
-				var el = e.target;
-				var src = el.getAttribute("src");
-				var alt = el.getAttribute("data-alt-src");
-
-				el.setAttribute("src", alt);
-				el.setAttribute("data-alt-src", src);
+				var img = ev.target;
+				self.toggle_image(img);
 			},
+
+			// grrrrrrrnnnnnnnnnnnn.... (20160324/thisisaaronland)
+
+			'onmouseout': function(ev){
+
+				var el = ev.target;
+
+				if (el.nodeName != 'DIV'){
+					return;
+				}
+
+				var imgs = el.getElementsByTagName("img");
+				var img = imgs[0];
+
+				self.toggle_image(img);
+			},
+
+			'toggle_image': function(img){
+
+				var src = img.getAttribute("src");
+				var alt = img.getAttribute("data-alt-src");
+
+				if ((! src) || (! alt)){
+					return;
+				}
+
+				img.setAttribute("src", alt);
+				img.setAttribute("data-alt-src", src);
+			}
 		};
 
 		return self;

@@ -315,7 +315,7 @@ func main() {
     <script type="text/javascript">
     window.onload = function(e){
     		  shoebox.common.init();
-    		  shoebox.index.init();
+    		  shoebox.index.init("item");
     }
     </script>
   </head>
