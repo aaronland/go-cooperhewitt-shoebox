@@ -2,6 +2,7 @@ body {
      font-family: sans-serif;
      margin:0px;
      padding:0px;
+     margin-bottom:5em;
 }
 
 .first {
@@ -65,4 +66,10 @@ a {
 .shoebox-thumb {
 	       max-height: 300px !important;
 	       max-width: 300px !important;
+}
+
+#details {
+       width: 1075px;
+       margin: 0 auto;
+       margin-bottom: 3em;
 }

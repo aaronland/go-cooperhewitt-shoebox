@@ -1,7 +1,7 @@
 package main
 
 import (
-       "errors"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/adrianuswarmenhoven/goconf"
@@ -69,40 +69,42 @@ func Id2Path(id int) string {
 func main() {
 
 	var token = flag.String("token", "", "Your Cooper Hewitt API access token")
-	var config = flag.String("config", "", "...config file")	
+	var config = flag.String("config", "", "...config file")
 	var shoebox = flag.String("shoebox", "", "...")
-	var scrumjax = flag.Bool("scrumjax", false, "...")	// please rename me...
+	var scrumjax = flag.Bool("scrumjax", false, "...") // please rename me...
 
 	flag.Parse()
 
 	//
 
 	var access_token string
-	
+
 	if *config != "" {
 
-		  conf, err := conf.ReadConfigFile(*config)
+		conf, err := conf.ReadConfigFile(*config)
 
-		  if err != nil {
-		     panic(err)
-		  }
-		  
-	   	  access_token, err = conf.GetString("api", "access_token")
+		if err != nil {
+			panic(err)
+		}
 
-		  if err != nil {
-		     panic(err)
-		  }
+		access_token, err = conf.GetString("api", "access_token")
+
+		if err != nil {
+			panic(err)
+		}
 
 	} else {
-	       access_token = *token
+		access_token = *token
 	}
 
 	if access_token == "" {
-	   panic(errors.New("Missing access token"))
+		panic(errors.New("Missing access token"))
 	}
-	
+
 	client := api.OAuth2Client(access_token)
 
+	// test client/access_token here... (20160330/thisisaaronland)
+	
 	// setup
 
 	_, err := os.Stat(*shoebox)
@@ -113,8 +115,8 @@ func main() {
 
 	// src := "https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/"
 
-	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js"}
-	css := []string{"shoebox.css"}
+	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js", "mapzen.whosonfirst.yesnofix.js"}
+	css := []string{"shoebox.css", "mapzen.whosonfirst.yesnofix.css"}
 
 	for _, fname := range js {
 
@@ -123,7 +125,7 @@ func main() {
 
 		_, err := os.Stat(local)
 
-		if !os.IsNotExist(err) && (!*scrumjax){
+		if !os.IsNotExist(err) && (!*scrumjax) {
 			continue
 		}
 
@@ -144,7 +146,7 @@ func main() {
 
 		_, err := os.Stat(local)
 
-		if !os.IsNotExist(err) && (!*scrumjax){
+		if !os.IsNotExist(err) && (!*scrumjax) {
 			continue
 		}
 
@@ -157,7 +159,7 @@ func main() {
 		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/css/%s", fname)
 		GetStore(remote, local) // to do: error handling
 	}
-	
+
 	// end setup
 
 	num_channels := 200
@@ -456,8 +458,10 @@ func main() {
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <link rel="stylesheet" type="text/css" href="%s/css/shoebox.css" />
+    <link rel="stylesheet" type="text/css" href="%s/css/mapzen.whosonfirst.yesnofix.css" />    
     <script type="text/javascript" src="%s/javascript/shoebox.common.js"></script>
     <script type="text/javascript" src="%s/javascript/shoebox.item.js"></script>
+    <script type="text/javascript" src="%s/javascript/mapzen.whosonfirst.yesnofix.js"></script>    
     <script type="text/javascript">
     window.onload = function(e){
     		  shoebox.common.init();
@@ -470,8 +474,14 @@ func main() {
   <div class="item-img">
   <img src="%s" id="item-image" />
   </div>
-  <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, find_root, find_root, item_b, ref_title, ref_url, ref_acc)
+  <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, find_root, find_root, find_root, find_root, item_b, ref_title, ref_url, ref_acc)
 
+
+  	 	   	item_html += fmt.Sprintf(`<div id="details">`)
+  	 	   	item_html += fmt.Sprintf(`<div id="details-item"></div>`)
+  	 	   	item_html += fmt.Sprintf(`<div id="details-refers-to"></div>`)
+  	 	   	item_html += fmt.Sprintf(`</div>`)
+			
 			item_html += fmt.Sprintf(`<ul class="pagination">`)
 
 			if idx == 0 {
