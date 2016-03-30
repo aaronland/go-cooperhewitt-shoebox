@@ -1,6 +1,7 @@
 package main
 
 import (
+       "errors"
 	"flag"
 	"fmt"
 	"github.com/adrianuswarmenhoven/goconf"
@@ -94,6 +95,10 @@ func main() {
 
 	} else {
 	       access_token = *token
+	}
+
+	if access_token == "" {
+	   panic(errors.New("Missing access token"))
 	}
 	
 	client := api.OAuth2Client(access_token)

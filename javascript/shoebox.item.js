@@ -41,12 +41,24 @@ shoebox.item = (function(){
 				var w = el.width;
 
 				// console.log(w + "," + h);
+				
+				if (w > h){
 
-				var wh = window.innerHeight;
-				wh = wh * .85;
+					var wh = window.innerHeight;
+					wh = wh * .85;
+					
+					el.setAttribute("height", wh);
+					el.setAttribute("data-toggle-state", "scaled");
+				}
 
-				el.setAttribute("height", wh);
-				el.setAttribute("data-toggle-state", "scaled");
+				else {
+
+					var ww = window.innerWidth;
+					ww = ww * .85;
+					
+					el.setAttribute("width", ww);
+					el.setAttribute("data-toggle-state", "scaled");
+				}
 			},
 
 			'expand': function(){
