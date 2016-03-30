@@ -13,6 +13,7 @@ fmt:
 
 deps:
 	@GOPATH=$(shell pwd) go get -u "github.com/cooperhewitt/go-cooperhewitt-api"
+	@GOPATH=$(shell pwd) go get -u "github.com/adrianuswarmenhoven/goconf"
 
 bin:	self
 	@GOPATH=$(shell pwd) go build -o bin/shoebox cmd/shoebox.go

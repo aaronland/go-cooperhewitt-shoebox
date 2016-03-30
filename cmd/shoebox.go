@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/adrianuswarmenhoven/goconf"
 	"github.com/cooperhewitt/go-cooperhewitt-api"
 	"github.com/jeffail/gabs"
 	_ "html/template"
@@ -67,10 +68,35 @@ func Id2Path(id int) string {
 func main() {
 
 	var token = flag.String("token", "", "Your Cooper Hewitt API access token")
+	var config = flag.String("config", "", "...config file")	
 	var shoebox = flag.String("shoebox", "", "...")
 	var scrumjax = flag.Bool("scrumjax", false, "...")	// please rename me...
 
 	flag.Parse()
+
+	//
+
+	var access_token string
+	
+	if *config != "" {
+
+		  conf, err := conf.ReadConfigFile(*config)
+
+		  if err != nil {
+		     panic(err)
+		  }
+		  
+	   	  access_token, err = conf.GetString("api", "access_token")
+
+		  if err != nil {
+		     panic(err)
+		  }
+
+	} else {
+	       access_token = *token
+	}
+	
+	client := api.OAuth2Client(access_token)
 
 	// setup
 
@@ -126,7 +152,7 @@ func main() {
 		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/css/%s", fname)
 		GetStore(remote, local) // to do: error handling
 	}
-
+	
 	// end setup
 
 	num_channels := 200
@@ -136,7 +162,6 @@ func main() {
 		ch <- true
 	}
 
-	client := api.OAuth2Client(*token)
 	stuff := make([]string, 0)
 
 	pages := -1
