@@ -70,7 +70,7 @@ shoebox.item = (function(){
 						self.feedback("I don't know how to " + isa);
 					}
 
-					mapzen.whosonfirst.yesnofix.makeitso(rsp, "details-item");
+					mapzen.whosonfirst.yesnofix.apply(rsp, "details-item");
 				};
 
 				var on_error = function(){
@@ -87,7 +87,7 @@ shoebox.item = (function(){
 				var on_success = function(rsp){
 
 					var object = rsp['object'];
-					mapzen.whosonfirst.yesnofix.makeitso(object, "details-refers-to");					
+					mapzen.whosonfirst.yesnofix.apply(object, "details-refers-to");					
 				};
 
 				var on_error = function(){

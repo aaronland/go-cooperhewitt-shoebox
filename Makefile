@@ -17,3 +17,7 @@ deps:
 
 bin:	self
 	@GOPATH=$(shell pwd) go build -o bin/shoebox cmd/shoebox.go
+
+yesnofix:
+	curl -s -o javascript/mapzen.whosonfirst.yesnofix.js https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst-yesnofix/master/src/mapzen.whosonfirst.yesnofix.js
+	curl -s -o css/mapzen.whosonfirst.yesnofix.css https://raw.githubusercontent.com/whosonfirst/js-mapzen-whosonfirst-yesnofix/master/src/mapzen.whosonfirst.yesnofix.css

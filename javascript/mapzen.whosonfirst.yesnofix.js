@@ -101,9 +101,7 @@ mapzen.whosonfirst.yesnofix = (function(){
 	    return exclude(d, ctx);
 	},
 	
-	// please do not call these 'engage' or 'makeitso' ...
-	
-	'makeitso': function(data, target){
+	'apply': function(data, target){
 	    
 	    var el = document.getElementById(target);
 	    
@@ -111,13 +109,13 @@ mapzen.whosonfirst.yesnofix = (function(){
 		return false;
 	    }
 	    
-	    var pretty = self.engage(data);
+	    var pretty = self.render(data);
 	    el.appendChild(pretty);
 
 	    return true;
 	},
 	
-	'engage': function(props){
+	'render': function(props){
 	    
 	    var pretty = document.createElement("div");
 	    pretty.setAttribute("id", "yesnofix-pretty");
@@ -222,14 +220,14 @@ mapzen.whosonfirst.yesnofix = (function(){
 		}
 
 	    var sorted = self.sort_bucket(bucket);
-	    var body = self.render(sorted, ns);
+	    var body = self.render_data(sorted, ns);
 	    
 	    wrapper.appendChild(body);
 	    
 	    return wrapper;
 	},
 	
-	'render': function(d, ctx){
+	'render_data': function(d, ctx){
 	    
 	    if (Array.isArray(d)){
 		// console.log("render list for " + ctx);
@@ -327,7 +325,7 @@ mapzen.whosonfirst.yesnofix = (function(){
 		
 		var content = document.createElement("td");
 
-		var body = self.render(d[k], _ctx);		
+		var body = self.render_data(d[k], _ctx);		
 		content.appendChild(body);
 
 		row.appendChild(header);
@@ -348,7 +346,7 @@ mapzen.whosonfirst.yesnofix = (function(){
 	    }
 	    
 	    if (count <= 1){
-		return self.render(d[0], ctx);
+		return self.render_data(d[0], ctx);
 	    }
 	    
 	    var list = document.createElement("ul");
@@ -356,7 +354,7 @@ mapzen.whosonfirst.yesnofix = (function(){
 	    for (var i=0; i < count; i++){
 		
 		var item = document.createElement("li");
-		var body = self.render(d[i], ctx + "#" + i);
+		var body = self.render_data(d[i], ctx + "#" + i);
 		
 		item.appendChild(body);
 		list.appendChild(item);
@@ -536,7 +534,7 @@ mapzen.whosonfirst.yesnofix = (function(){
 	    fix.setAttribute("class", "yesnofix-assert-fix");
 	    fix.setAttribute("data-id", id);
 	    fix.setAttribute("data-assertion", status_map['fix']);
-	    fix.setAttribute("title", "this value is somewhere between weird-data and kind-of-correct, but still needs some help");
+	    fix.setAttribute("title", "this value is somewhere between weird data and kind-of-correct data, but still needs some help");
 	    
 	    var cancel = document.createElement("button");
 	    cancel.setAttribute("class", "yesnofix-assert-cancel");
@@ -581,25 +579,25 @@ mapzen.whosonfirst.yesnofix = (function(){
 	    head.appendChild(document.createTextNode("What is Yes No Fix ?"));
 
 	    var intro = document.createElement("p");
-	    intro.appendChild(document.createTextNode("intro..."));
+	    intro.appendChild(document.createTextNode("Yes No Fix allows you to offer an opinion about the contents of this web page. Those opinions can then be bundled up as a report and sent to its authors. When you say:"));
 
 	    var options = document.createElement("ul");
 
 	    var yes = document.createElement("li");
-	    yes.appendChild(document.createTextNode("yes – this data is correct"));
+	    yes.appendChild(document.createTextNode("Yes, this means this data is correct"));
 
 	    var no = document.createElement("li");
-	    no.appendChild(document.createTextNode("no – this data is incorrect and should be removed"));
+	    no.appendChild(document.createTextNode("No, this means this data is incorrect and should be removed"));
 
 	    var fix = document.createElement("li");
-	    fix.appendChild(document.createTextNode("fix – this data is not entirely wrong but needs to be corrected"));
+	    fix.appendChild(document.createTextNode("Fix, this means this data is not entirely wrong but needs to be corrected"));
 
 	    options.appendChild(yes);
 	    options.appendChild(no);
 	    options.appendChild(fix);
 
 	    var outro = document.createElement("p");
-	    outro.appendChild(document.createTextNode("outro..."));
+	    outro.appendChild(document.createTextNode("The details of where a report is sent and how it is processed will vary from website to website."));
 
 	    text.appendChild(head);
 	    text.appendChild(intro);
