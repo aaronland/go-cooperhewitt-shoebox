@@ -68,10 +68,10 @@ func Id2Path(id int) string {
 
 func main() {
 
-	var token = flag.String("token", "", "Your Cooper Hewitt API access token")
-	var config = flag.String("config", "", "...config file")
-	var shoebox = flag.String("shoebox", "", "...")
-	var scrumjax = flag.Bool("scrumjax", false, "...") // please rename me...
+	var token = flag.String("token", "", "A valid Cooper Hewitt API access token (if you don't have a config file or want to override it)")
+	var config = flag.String("config", "", "The path to a config file containing your Cooper Hewitt API access token")
+	var shoebox = flag.String("shoebox", "", "The path where your shoebox archive should be created")
+	var scrumjax = flag.Bool("dependencies", false, "Download fresh versions of third-party libraries")
 
 	flag.Parse()
 

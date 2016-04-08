@@ -7,8 +7,6 @@ Tools for archiving your Cooper Hewitt shoebox.
 This is wet paint. It's probably too soon for you. Things this does not do yet:
 
 * Archiving of anything but objects that have been collected
-* Display any custom metadata (title, notes)
-* Display any object/person/video metadata (besides title and accession number)
 * Honour / display privacy settings
 * Templates for generating HTML files
 * Responsive hoohah
@@ -20,12 +18,23 @@ This is wet paint. It's probably too soon for you. Things this does not do yet:
 $> make build
 ```
 
+_Note: You will need to have both the `Go` and `make` applications installed on your computers for this to work. It's early days still..._
+
 ## Tools
 
 ### shoebox
 
 ```
-$> ./bin/shoebox -token <COOPERHEWITT_API_TOKEN> -shoebox <PATH_TO_LOCAL_SHOEBOX>
+./bin/shoebox -h
+Usage of ./bin/shoebox:
+  -config string
+    	The path to a config file containing your Cooper Hewitt API access token
+  -dependencies
+    	Download fresh versions of third-party libraries
+  -shoebox string
+    	The path where your shoebox archive should be created
+  -token string
+    	A valid Cooper Hewitt API access token (if you don't have a config file or want to override it)
 ```
 
 ## See also
