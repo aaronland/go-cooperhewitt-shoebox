@@ -39,7 +39,7 @@ Usage of ./bin/shoebox:
 
 ## Example
 
-There is an sample shoebox in the `example` directory of this repository. To view it, open the `example/index.html` file in a web browser.
+There is an sample shoebox in the [example](example) directory of this repository. To view it, open the `example/index.html` file in a web browser.
 
 ## The details
 
