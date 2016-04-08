@@ -37,6 +37,10 @@ Usage of ./bin/shoebox:
     	A valid Cooper Hewitt API access token (if you don't have a config file or want to override it)
 ```
 
+## Example
+
+There is an sample shoebox in the `example` directory of this repository. To view it, open the `example/index.html` file in a web browser.
+
 ## The details
 
 ### Access tokens
