@@ -52,6 +52,14 @@ Config files are simple [ini-style](https://en.wikipedia.org/wiki/INI_file) text
 access_token=ACCESS_TOKEN
 ```
 
+### Viewing your archive
+
+_When we say "your archive folder" we are talking about the folder that you specified with the `-shoebox` parameter, above._
+
+Copy your archive folder to a web server. Or:
+
+Simply open the `index.html` file located in your archive folder in a web browser.
+
 ## See also
 
 * https://collection.cooperhewitt.org/api/
