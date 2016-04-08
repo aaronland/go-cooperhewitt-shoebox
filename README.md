@@ -37,6 +37,21 @@ Usage of ./bin/shoebox:
     	A valid Cooper Hewitt API access token (if you don't have a config file or want to override it)
 ```
 
+## The details
+
+### Access tokens
+
+You can create a Cooper Hewitt API access token here: https://collection.cooperhewitt.org/api/oauth2/authenticate/like-magic/
+
+### Config files
+
+Config files are simple [ini-style](https://en.wikipedia.org/wiki/INI_file) text files. Here's an example of one:
+
+```
+[api]
+access_token=ACCESS_TOKEN
+```
+
 ## See also
 
 * https://collection.cooperhewitt.org/api/
