@@ -18,7 +18,7 @@ This is wet paint. It's probably too soon for you. Things this does not do yet:
 $> make build
 ```
 
-_Note: You will need to have both the `Go` and `make` applications installed on your computers for this to work. It's early days still..._
+_Note: You will need to have both the `Go` and `make` applications installed on your computers for this to work. It won't always be this way but it is early days still..._
 
 ## Tools
 
