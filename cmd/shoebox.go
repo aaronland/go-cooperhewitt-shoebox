@@ -104,7 +104,7 @@ func main() {
 	client := api.OAuth2Client(access_token)
 
 	// test client/access_token here... (20160330/thisisaaronland)
-	
+
 	// setup
 
 	_, err := os.Stat(*shoebox)
@@ -435,7 +435,14 @@ func main() {
 			// desc := item.Path("description").Data().(string)
 
 			ref_title := item.Path("refers_to.title").Data().(string)
-			ref_acc := item.Path("refers_to.accession_number").Data().(string)
+
+			acc := item.Path("refers_to.accession_number").Data()
+			ref_acc := ""
+
+			if acc != nil {
+				ref_acc = acc.(string)
+			}
+
 			ref_url := item.Path("refers_to.url").Data().(string)
 			//ref_text := item.Path("refers_to.gallery_text").Data().(string)
 
@@ -476,12 +483,11 @@ func main() {
   </div>
   <h2>%s <small><a href="%s">%s</a></small></h2></div>`, ref_title, find_root, find_root, find_root, find_root, find_root, item_b, ref_title, ref_url, ref_acc)
 
+			item_html += fmt.Sprintf(`<div id="details">`)
+			item_html += fmt.Sprintf(`<div id="details-item"></div>`)
+			item_html += fmt.Sprintf(`<div id="details-refers-to"></div>`)
+			item_html += fmt.Sprintf(`</div>`)
 
-  	 	   	item_html += fmt.Sprintf(`<div id="details">`)
-  	 	   	item_html += fmt.Sprintf(`<div id="details-item"></div>`)
-  	 	   	item_html += fmt.Sprintf(`<div id="details-refers-to"></div>`)
-  	 	   	item_html += fmt.Sprintf(`</div>`)
-			
 			item_html += fmt.Sprintf(`<ul class="pagination">`)
 
 			if idx == 0 {
