@@ -1,129 +1,24 @@
-package main
+package shoebox
 
-import (
-	"errors"
-	"flag"
-	"fmt"
-	"github.com/adrianuswarmenhoven/goconf"
-	"github.com/cooperhewitt/go-cooperhewitt-api"
-	"github.com/thisisaaronland/go-cooperhewitt-shoebox"	
-	"github.com/jeffail/gabs"
-	_ "html/template"
-	"io/ioutil"
-	"math"
-	"net/http"
-	"net/url"
-	"os"
-	"path/filepath"
-	"strconv"
-	"strings"
-	"sync"
-)
+type Shoebox struct {
+
+}
+
+func NewShoebox () (*Shoebox, error) {
+
+     sb := Shoebox{
+
+     }
+
+     return &sb, nil
+}
+
+func (sb *Shoebox) Archive(root string) error {
 
 
-func main() {
+}
 
-	var token = flag.String("token", "", "A valid Cooper Hewitt API access token (if you don't have a config file or want to override it)")
-	var config = flag.String("config", "", "The path to a config file containing your Cooper Hewitt API access token")
-	var shoebox = flag.String("shoebox", "", "The path where your shoebox archive should be created")
-	var scrumjax = flag.Bool("dependencies", false, "Download fresh versions of third-party libraries")
-
-	flag.Parse()
-
-	//
-
-	var access_token string
-
-	if *config != "" {
-
-		conf, err := conf.ReadConfigFile(*config)
-
-		if err != nil {
-			panic(err)
-		}
-
-		access_token, err = conf.GetString("api", "access_token")
-
-		if err != nil {
-			panic(err)
-		}
-
-	} else {
-		access_token = *token
-	}
-
-	if access_token == "" {
-		panic(errors.New("Missing access token"))
-	}
-
-	client := api.OAuth2Client(access_token)
-
-	// test client/access_token here... (20160330/thisisaaronland)
-	// setup
-
-	_, err := os.Stat(*shoebox)
-
-	if os.IsNotExist(err) {
-		panic(err)
-	}
-
-	// src := "https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/"
-
-	js := []string{"shoebox.common.js", "shoebox.index.js", "shoebox.item.js", "mapzen.whosonfirst.yesnofix.js"}
-	css := []string{"shoebox.css", "mapzen.whosonfirst.yesnofix.css"}
-
-	for _, fname := range js {
-
-		root := filepath.Join(*shoebox, "javascript")
-		local := filepath.Join(root, fname)
-
-		_, err := os.Stat(local)
-
-		if !os.IsNotExist(err) && (!*scrumjax) {
-			continue
-		}
-
-		_, err = os.Stat(root)
-
-		if os.IsNotExist(err) {
-			os.Mkdir(root, 0755)
-		}
-
-		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/javascript/%s", fname)
-		GetStore(remote, local) // to do: error handling
-	}
-
-	for _, fname := range css {
-
-		root := filepath.Join(*shoebox, "css")
-		local := filepath.Join(root, fname)
-
-		_, err := os.Stat(local)
-
-		if !os.IsNotExist(err) && (!*scrumjax) {
-			continue
-		}
-
-		_, err = os.Stat(root)
-
-		if os.IsNotExist(err) {
-			os.Mkdir(root, 0755)
-		}
-
-		remote := fmt.Sprintf("https://raw.githubusercontent.com/thisisaaronland/go-cooperhewitt-shoebox/master/css/%s", fname)
-		GetStore(remote, local) // to do: error handling
-	}
-
-	// end setup
-
-	num_channels := 100
-	ch := make(chan bool, num_channels)
-
-	for i := 0; i < num_channels; i++ {
-		ch <- true
-	}
-
-	stuff := make([]string, 0)
+func (sb *Shoebox) GetItems() error {
 
 	pages := -1
 	page := 1
@@ -136,10 +31,10 @@ func main() {
 	for pages == -1 || pages >= page {
 
 		params.Set("page", strconv.Itoa(page))
-		rsp, err := client.ExecuteMethod(method, &params)
+		rsp, err := sb.client.ExecuteMethod(method, &params)
 
 		if err != nil {
-			panic(err)
+		   	return err
 		}
 
 		body := rsp.Body()
@@ -512,18 +407,6 @@ func main() {
 
 		offset += per_page
 		page += 1
-	}
-
-	page1 := filepath.Join(*shoebox, "page1.html")
-	_, page1_err := os.Stat(page1)
-
-	if !os.IsNotExist(page1_err) {
-
-		index := filepath.Join(*shoebox, "index.html")
-
-		// todo - error handling
-		data, _ := ioutil.ReadFile(page1)
-		ioutil.WriteFile(index, data, 0644)
 	}
 
 }
