@@ -2,6 +2,9 @@ prep:
 	if test -d pkg; then rm -rf pkg; fi
 
 self:	prep
+	if test -d src; then rm -rf src; fi
+	mkdir -p src
+	cp -r vendor/* src/
 
 rmdeps:
 	if test -d src; then rm -rf src; fi 
@@ -14,6 +17,13 @@ fmt:
 deps:
 	@GOPATH=$(shell pwd) go get -u "github.com/cooperhewitt/go-cooperhewitt-api"
 	@GOPATH=$(shell pwd) go get -u "github.com/adrianuswarmenhoven/goconf"
+
+vendor-deps: rmdeps deps
+	if test ! -d vendor; then mkdir vendor; fi
+	if test -d vendor; then rm -rf vendor; fi
+	cp -r src vendor
+	find vendor -name '.git' -print -type d -exec rm -rf {} +
+	rm -rf src
 
 bin:	self
 	@GOPATH=$(shell pwd) go build -o bin/shoebox cmd/shoebox.go
